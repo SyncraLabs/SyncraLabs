@@ -1,9 +1,3 @@
-<!--
-  Perfil de GitHub de Rodri Gonzalez (@SyncraLabs).
-  El grid de contribuciones lo re-genera solo el workflow .github/workflows/update-profile-art.yml.
-  Para re-tunear el retrato:  python scripts/make_ascii_svg.py source-prepped.png rodri-ascii.svg
-  Para editar el panel:       edita ROWS/HOST en scripts/make_info_card.py y ejecutalo.
--->
 <div align="center">
 
 <table>
@@ -23,7 +17,13 @@
 
 <br>
 
-<!-- grid de contribuciones, actualizado a diario por el workflow -->
 <img src="./contrib-heatmap.svg" width="860" alt="Grid de contribuciones de GitHub" />
 
 </div>
+
+<!--
+  Perfil de GitHub de Rodri Gonzalez (@SyncraLabs).
+  El grid de contribuciones lo re-genera solo .github/workflows/update-profile-art.yml.
+  Re-tunear retrato: python scripts/make_ascii_svg.py source-prepped.png rodri-ascii.svg
+  Editar panel:      edita ROWS/HOST en scripts/make_info_card.py y ejecutalo.
+-->
