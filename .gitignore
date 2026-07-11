@@ -1,0 +1,4 @@
+# local preview renders (not part of the profile)
+preview-*.png
+*-static.svg
+__pycache__/

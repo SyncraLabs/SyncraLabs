@@ -1,0 +1,50 @@
+name: Update profile art
+
+# Re-scrapes the public contribution graph and re-renders contrib-heatmap.svg.
+# No token needed for the scrape; the default GITHUB_TOKEN only commits the result.
+on:
+  schedule:
+    - cron: "17 4 * * *"   # every day at 04:17 UTC
+  workflow_dispatch: {}      # lets you run it manually from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-profile-art
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install -r scripts/requirements.txt
+
+      - name: Fetch contributions
+        env:
+          GH_PROFILE_USER: ${{ github.repository_owner }}
+        run: python scripts/fetch_contributions.py
+
+      - name: Render heatmap
+        run: python scripts/render_heatmap_svg.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain data/contributions.json contrib-heatmap.svg)" ]; then
+            git add data/contributions.json contrib-heatmap.svg
+            git commit -m "chore: refresh contribution graph"
+            git push
+          else
+            echo "No changes to commit."
+          fi
